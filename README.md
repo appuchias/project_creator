@@ -4,7 +4,7 @@
 ![Size](https://img.shields.io/github/repo-size/appuchias/project_creator?color=orange&style=flat-square)
 
 # How it works
-You'll need to create a settings.json file including `path` and `token` for new projects path and GitHub token, respectively.
+You'll need to create a settings.json file including `path` and `token` for new projects path and [GitHub token](https://github.com/settings/tokens), respectively.
 
 [NOTE: You can add the folder to PATH to make it easier to run]
 
