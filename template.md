@@ -8,9 +8,9 @@ How it works
 
 # Setup
 1. Navigate to the desired folder: `cd <path>`
-2. Clone the repo: `git clone https://github.com/appuchias/NAMEHERE.git`
-3. Navigate into the repo folder: `cd NAMEHERE`
-4. Run the file: `python main.py`
+1. Clone the repo: `git clone https://github.com/appuchias/NAMEHERE.git`
+1. Navigate into the repo folder: `cd NAMEHERE`
+1. Run the file: `python main.py`
 
 # License
 This project is licensed under the [MIT license](https://github.com/appuchias/NAMEHERE/blob/master/LICENSE).

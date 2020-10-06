@@ -1,61 +1,71 @@
 import sys
 import os
+import shutil
 from os import path
 from github import Github
 import json
 
-with open("settings.json") as r:
-    settings = json.load(r)
+def create():
+    ROOT_FOLDER = r"C:\V\Programming\project_creator"
 
-try:
-	flag = sys.argv[1]
-except IndexError:
-    raise RuntimeError("Could not find a project name in the run sentence. Please enter a project name. (python3 create.py <name>)")
+    with open(path.join(ROOT_FOLDER, "settings.json")) as r:
+        settings = json.load(r)
 
-try:
-	flag = sys.argv[2]
-except IndexError:
-	flag = None
+    try:
+        flag = sys.argv[1]
+    except IndexError:
+        raise RuntimeError("Could not find a project name in the run sentence. Please enter a project name. (python3 create.py <name>)")
 
-foldername = str(sys.argv[1])
-path = settings["path"]
-token = settings["token"]
+    try:
+        flag = sys.argv[2]
+    except IndexError:
+        flag = None
 
-_dir = os.path.join(path, foldername)
+    foldername = str(sys.argv[1])
+    token = settings["token"]
+    local_path = settings["local"]
 
-if not flag: # Not local -> remote
-    g = Github(token)
-    user = g.get_user()
-    login = user.login
-    repo = user.create_repo(foldername, private=True)
+    _dir = path.join("\\".join(ROOT_FOLDER.split("\\")[:-1]), foldername)
 
-    commands = [
-        f"copy template.md " + os.path.join(_dir, "README.md"),
-        f"copy template.gitignore" + os.path.join(_dir, ".gitignore"),
-        f"copy LICENSE " + os.path.join(_dir, "LICENSE"),
-        "git init",
-        f"git remote add origin https://github.com/{login}/{foldername}.git",
-        "git add .",
-        'git commit -m "Initial commit"',
-        "git push -u origin master",
-    ]
+    if not flag: # Not local -> remote
+        g = Github(token)
+        user = g.get_user()
+        login = user.login
+        repo = user.create_repo(foldername, private=True)
 
-else: # local
-    commands = [
-        "git init",
-        "git add README.md",
-        "git commit -m \"First commit\"",
-    ]
+        if not path.exists(_dir):
+            os.mkdir(_dir)
 
-try:
-    os.mkdir(_dir)
-    os.chdir(_dir)
+        shutil.copy2(path.join(local_path, "template.md"), os.path.join(_dir, "README.md"))
+        shutil.copy2(path.join(local_path, "template.gitignore"), os.path.join(_dir, ".gitignore"))
+        shutil.copy2(path.join(local_path, "LICENSE"), os.path.join(_dir, "LICENSE"))
 
-    for c in commands:
-        os.system(c)
+        commands = [
+            "git init",
+            f"git remote add origin https://github.com/{login}/{foldername}.git",
+            "git add .",
+            "git commit -m \"Initial commit\"",
+            "git push -u origin master",
+        ]
 
-    print(f"{foldername} created")
+    else: # local
+        commands = [
+            "git init",
+            "git add README.md",
+            "git commit -m \"Initial commit\"",
+        ]
 
-except Exception as e:
-    print("create <foldername> {py}")
-    print(e)
+    try:
+        os.chdir(_dir)
+
+        for c in commands:
+            os.system(c)
+        
+        os.system("code .")
+
+        print(f"{foldername} created")
+    finally:
+        pass
+        
+if __name__ == "__main__":
+    create()
