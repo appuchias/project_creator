@@ -2,13 +2,14 @@ import sys
 import os
 import shutil
 from os import path
+from time import sleep
 from github import Github
 import json
 
 def create():
-    ROOT_FOLDER = r"C:\V\Programming\project_creator"
+    ROOT_FOLDER = r"C:\V\Programming"
 
-    with open(path.join(ROOT_FOLDER, "settings.json")) as r:
+    with open(r"C:\V\Programming\project_creator\settings.json") as r:
         settings = json.load(r)
 
     try:
@@ -25,7 +26,7 @@ def create():
     token = settings["token"]
     local_path = settings["local"]
 
-    _dir = path.join("\\".join(ROOT_FOLDER.split("\\")[:-1]), foldername)
+    _dir = path.join(ROOT_FOLDER, foldername)
 
     if not flag: # Not local -> remote
         g = Github(token)
@@ -69,3 +70,5 @@ def create():
         
 if __name__ == "__main__":
     create()
+    sleep(2)
+    os.system("exit")
