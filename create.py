@@ -32,7 +32,7 @@ def create():
         g = Github(token)
         user = g.get_user()
         login = user.login
-        repo = user.create_repo(foldername, private=True)
+        user.create_repo(foldername, private=True)
 
         if not path.exists(_dir):
             os.mkdir(_dir)
