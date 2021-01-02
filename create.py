@@ -1,6 +1,6 @@
+import shutil
 import sys
 import os
-import shutil
 from os import path
 from time import sleep
 from github import Github
@@ -9,7 +9,7 @@ import json
 def create():
     ROOT_FOLDER = r"C:\V\Programming"
 
-    with open(r"C:\V\Programming\project_creator\settings.json") as r:
+    with open(r"C:\V\Programming\SCRIPTS\project_creator\settings.json") as r:
         settings = json.load(r)
 
     try:
@@ -66,9 +66,9 @@ def create():
 
         print(f"{foldername} created")
     finally:
-        pass
+        print("Done!")
+        sleep(2)
+        os.system(f"cd {_dir}")
         
 if __name__ == "__main__":
     create()
-    sleep(2)
-    os.system("exit")
