@@ -1,74 +1,85 @@
-import shutil
-import sys
-import os
+import shutil, os
 from os import path
-from time import sleep
+from sys import argv
+from rich.console import Console
+from rich.traceback import install
 from github import Github
-import json
+from dotenv import load_dotenv
+from os import getenv
 
-def create():
-    ROOT_FOLDER = r"C:\V\Programming"
+load_dotenv()
+install()
 
-    with open(r"C:\V\Programming\SCRIPTS\project_creator\settings.json") as r:
-        settings = json.load(r)
 
-    try:
-        flag = sys.argv[1]
-    except IndexError:
-        raise RuntimeError("Could not find a project name in the run sentence. Please enter a project name. (python3 create.py <name>)")
+def create(name: str, flag: str):
+    c = Console()
 
-    try:
-        flag = sys.argv[2]
-    except IndexError:
-        flag = None
+    DEST = getenv("DEST")  # Destination folder
+    TOKEN = getenv("TOKEN")  # GitHub token
+    LOCAL = getenv("LOCAL")  # Local folder
 
-    foldername = str(sys.argv[1])
-    token = settings["token"]
-    local_path = settings["local"]
+    FOLDERNAME = name
+    NEWDIR = path.join(DEST, FOLDERNAME)  # New folder on destination
 
-    _dir = path.join(ROOT_FOLDER, foldername)
+    if not path.exists(NEWDIR):  # Add destination folder
+        os.mkdir(NEWDIR)
 
-    if not flag: # Not local -> remote
-        g = Github(token)
-        user = g.get_user()
+    # Commands setting
+    if not flag:  # Not local -> remote
+        user = Github(TOKEN).get_user()  # Login to GitHub
         login = user.login
-        user.create_repo(foldername, private=True)
-
-        if not path.exists(_dir):
-            os.mkdir(_dir)
-
-        shutil.copy2(path.join(local_path, "template.md"), os.path.join(_dir, "README.md"))
-        shutil.copy2(path.join(local_path, "template.gitignore"), os.path.join(_dir, ".gitignore"))
-        shutil.copy2(path.join(local_path, "LICENSE"), os.path.join(_dir, "LICENSE"))
+        user.create_repo(FOLDERNAME, private=True)
 
         commands = [
             "git init",
-            f"git remote add origin https://github.com/{login}/{foldername}.git",
+            f"git remote add origin https://github.com/{login}/{FOLDERNAME}.git",
             "git add .",
-            "git commit -m \"Initial commit\"",
+            'git commit -m "Initial commit"',
             "git push -u origin master",
         ]
 
-    else: # local
+    else:  # local
         commands = [
             "git init",
             "git add README.md",
-            "git commit -m \"Initial commit\"",
+            'git commit -m "Initial commit"',
         ]
 
+    # Global actions
     try:
-        os.chdir(_dir)
+        for fileobj in os.scandir(path.join(LOCAL, "toClone")):  # Move files to destination
+            shutil.copy2(
+                path.join(fileobj.path),
+                path.join(NEWDIR, fileobj.name.replace("template", "")),
+            )
 
-        for c in commands:
+        os.chdir(NEWDIR)  # Change to destination folder
+
+        for c in commands:  # Create project
             os.system(c)
-        
+
+        os.system("virtualenv venv")
+        os.system(".\\venv\\Scripts\\activate.bat")
         os.system("code .")
 
-        print(f"{foldername} created")
+        print(f"{FOLDERNAME} created")
+    except:
+        c.print_exception()
+
     finally:
         print("Done!")
-        sleep(2)
-        os.system(f"cd {_dir}")
-        
+        os.system(f"cd {NEWDIR}")
+
+    return NEWDIR
+
+
 if __name__ == "__main__":
-    create()
+    assert argv[1], "Project name could not be found"
+
+    # Set local or remote
+    try:
+        flag = argv[2]
+    except IndexError:
+        flag = None
+
+    create(str(argv[1]), flag)
