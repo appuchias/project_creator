@@ -58,7 +58,7 @@ def create(name: str, flag: str):
         for c in commands:  # Create project
             os.system(c)
 
-        os.system("virtualenv venv")
+        os.system("python -m virtualenv venv")
         os.system(".\\venv\\Scripts\\activate.bat")
         os.system("code .")
 
