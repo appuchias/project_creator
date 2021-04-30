@@ -20,4 +20,3 @@ How it works
 This project is licensed under the [MIT license](https://github.com/appuchias/NAMEHERE/blob/master/LICENSE).
 
 Coded with 🖤 by Appu
-
