@@ -1,6 +1,5 @@
-import shutil, os
+import shutil, os, argparse
 from os import path
-from sys import argv
 from rich.console import Console
 from rich.traceback import install
 from github import Github
@@ -11,7 +10,7 @@ load_dotenv()
 install()
 
 
-def create(name: str, flag: str):
+def create(name: str, flag: bool):
     c = Console()
 
     DEST = getenv("DEST")  # Destination folder
@@ -25,7 +24,14 @@ def create(name: str, flag: str):
         os.mkdir(NEWDIR)
 
     # Commands setting
-    if not flag:  # Not local -> remote
+    if flag:  # Local
+        commands = [
+            "git init",
+            "git add README.md",
+            'git commit -m "Initial commit"',
+        ]
+
+    else:  # Not local -> remote
         user = Github(TOKEN).get_user()  # Login to GitHub
         login = user.login
         user.create_repo(FOLDERNAME, private=True)
@@ -36,13 +42,6 @@ def create(name: str, flag: str):
             "git add .",
             'git commit -m "Initial commit"',
             "git push -u origin master",
-        ]
-
-    else:  # local
-        commands = [
-            "git init",
-            "git add README.md",
-            'git commit -m "Initial commit"',
         ]
 
     # Global actions
@@ -74,12 +73,12 @@ def create(name: str, flag: str):
 
 
 if __name__ == "__main__":
-    assert argv[1], "Project name could not be found"
 
-    # Set local or remote
-    try:
-        flag = argv[2]
-    except IndexError:
-        flag = None
+    parser = argparse.ArgumentParser()
 
-    create(str(argv[1]), flag)
+    parser.add_argument("-l", "--local", help="Set the project as local", action="store_true")
+    parser.add_argument("project_name", help="Your project's name for your files and GitHub")
+
+    args = parser.parse_args()
+
+    create(args.project_name, args.local)
