@@ -8,77 +8,76 @@ from os import getenv
 
 load_dotenv()
 install()
+c = Console()
 
 
-def create(name: str, flag: bool):
-    c = Console()
+# Argparser stuff
+parser = argparse.ArgumentParser()
 
-    DEST = getenv("DEST")  # Destination folder
-    TOKEN = getenv("TOKEN")  # GitHub token
-    LOCAL = getenv("LOCAL")  # Local folder
+parser.add_argument("-l", "--local", help="Set the project as local", action="store_true")
+parser.add_argument("project_name", help="Your project's name for your files and GitHub")
 
-    FOLDERNAME = name
-    NEWDIR = path.join(DEST, FOLDERNAME)  # New folder on destination
-
-    if not path.exists(NEWDIR):  # Add destination folder
-        os.mkdir(NEWDIR)
-
-    # Commands setting
-    if flag:  # Local
-        commands = [
-            "git init",
-            "git add README.md",
-            'git commit -m "Initial commit"',
-        ]
-
-    else:  # Not local -> remote
-        user = Github(TOKEN).get_user()  # Login to GitHub
-        login = user.login
-        user.create_repo(FOLDERNAME, private=True)
-
-        commands = [
-            "git init",
-            f"git remote add origin https://github.com/{login}/{FOLDERNAME}.git",
-            "git add .",
-            'git commit -m "Initial commit"',
-            "git push -u origin master",
-        ]
-
-    # Global actions
-    try:
-        for fileobj in os.scandir(path.join(LOCAL, "toClone")):  # Move files to destination
-            shutil.copy2(
-                path.join(fileobj.path),
-                path.join(NEWDIR, fileobj.name.replace("template", "")),
-            )
-
-        os.chdir(NEWDIR)  # Change to destination folder
-
-        for c in commands:  # Create project
-            os.system(c)
-
-        os.system("python -m virtualenv venv")
-        os.system(".\\venv\\Scripts\\activate.bat")
-        os.system("code .")
-
-        print(f"{FOLDERNAME} created")
-    except:
-        c.print_exception()
-
-    finally:
-        print("Done!")
-        os.system(f"cd {NEWDIR}")
-
-    return NEWDIR
+args = parser.parse_args()
+name, local = args.project_name, args.local
 
 
-if __name__ == "__main__":
+DEST = getenv("DEST")  # Projects root folder
+TOKEN = getenv("TOKEN")  # GitHub token
+LOCAL = getenv("LOCAL")  # This file's folder
 
-    parser = argparse.ArgumentParser()
+PROJECTNAME = name
+NEWFOLDER = path.join(DEST, PROJECTNAME)  # New folder on destination
 
-    parser.add_argument("-l", "--local", help="Set the project as local", action="store_true")
-    parser.add_argument("project_name", help="Your project's name for your files and GitHub")
+if not path.exists(NEWFOLDER):  # Create destination folder
+    os.mkdir(NEWFOLDER)
 
-    args = parser.parse_args()
 
-    create(args.project_name, args.local)
+# Commands setting
+if local:
+    commands = [
+        "git init",
+        "git add README.md",
+        'git commit -m "Initial commit"',
+    ]
+
+else:  # Not local -> remote
+    user = Github(TOKEN).get_user()  # Login to GitHub
+    login = user.login
+    user.create_repo(PROJECTNAME, private=True)
+
+    commands = [
+        "git init",
+        f"git remote add origin https://github.com/{login}/{PROJECTNAME}.git",
+        "git add .",
+        'git commit -m "Initial commit"',
+        "git push -u origin master",
+    ]
+
+
+# Global actions
+try:
+    # Move files to destination
+    for fileobj in os.scandir(path.join(LOCAL, "toClone")):
+        shutil.copy2(
+            path.join(fileobj.path),
+            path.join(NEWFOLDER, fileobj.name.replace("template", "")),
+        )
+
+    # Change to destination folder
+    os.chdir(NEWFOLDER)
+
+    # Create project
+    for c in commands:
+        os.system(c)
+
+    os.system("python -m virtualenv venv")
+    os.system(".\\venv\\Scripts\\activate.bat")
+    os.system("code .")
+
+    print(f"{PROJECTNAME} created")
+except:
+    c.print_exception()
+
+finally:
+    print("Done!")
+    os.system(f"cd {NEWFOLDER}")
