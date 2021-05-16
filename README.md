@@ -13,6 +13,7 @@ How it works
 1. Navigate to the desired folder: `cd <path>`
 1. Clone the repo: `git clone https://github.com/appuchias/project_creator.git`
 1. Navigate into the repo folder: `cd project_creator`
+1. Setup environmental variables `( To extend )`
 1. Run the file: `python create.py [-h] [-l] project_name`
 
 - **[Tip!]** Add create to PATH or create a runner file to ease the use.
