@@ -15,10 +15,13 @@ c = Console()
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-l", "--local", help="Set the project as local", action="store_true")
-parser.add_argument("project_name", help="Your project's name for your files and GitHub")
+parser.add_argument("project_name", help="Your project's name for your files and GitHub", nargs="?")
 
 args = parser.parse_args()
 name, local = args.project_name, args.local
+
+if not name:
+    name = input("Please specify project name: ").strip()
 
 
 DEST = getenv("DEST")  # Projects root folder
