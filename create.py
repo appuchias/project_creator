@@ -15,9 +15,7 @@ c = Console()
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-l", "--local", help="Set the project as local", action="store_true")
-parser.add_argument(
-    "-p", "--python", help="Automatically add python main file", action="store_true"
-)
+parser.add_argument("-p", "--python", help="Auto add python main file", action="store_true")
 parser.add_argument("-s", "--script", help="Set the project as a script", action="store_true")
 parser.add_argument("project_name", help="Your project's name for your files and GitHub", nargs="?")
 
@@ -28,15 +26,20 @@ if not name:
     name = input("Please specify project name: ").strip()
 
 
-DEST = getenv("DEST")  # Projects root folder
+DEST = getenv("DEST")  # Projects root folder (Where to create the new projects)
 TOKEN = getenv("TOKEN")  # GitHub token
-LOCAL = getenv("LOCAL")  # This file's folder
+LOCAL = getenv("LOCAL")  # This file's folder (To clone files)
+SCRIPTS_FOLDER_NAME = "RANDOM_SCRIPTS"
 
 PROJECTNAME = name
+
+if args.script:  # Set the new root destination to
+    DEST = path.exists(path.join(DEST, SCRIPTS_FOLDER_NAME))
+
 NEWFOLDER = path.join(DEST, PROJECTNAME)  # New folder on destination
 
 if not path.exists(NEWFOLDER):  # Create destination folder
-    os.mkdir(NEWFOLDER)
+    os.makedirs(NEWFOLDER)
 
 
 # Commands setting
@@ -73,12 +76,14 @@ try:
     # Change to destination folder
     os.chdir(NEWFOLDER)
 
+    if args.python:
+        open(path.join(NEWFOLDER, "main.py"), "a").close()
+
     # Create project
     for c in commands:
         os.system(c)
 
     os.system("python -m virtualenv venv")
-    os.system(".\\venv\\Scripts\\activate.bat")
     os.system("code .")
 
     print(f"{PROJECTNAME} created")
