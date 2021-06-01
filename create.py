@@ -15,6 +15,10 @@ c = Console()
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-l", "--local", help="Set the project as local", action="store_true")
+parser.add_argument(
+    "-p", "--python", help="Automatically add python main file", action="store_true"
+)
+parser.add_argument("-s", "--script", help="Set the project as a script", action="store_true")
 parser.add_argument("project_name", help="Your project's name for your files and GitHub", nargs="?")
 
 args = parser.parse_args()
