@@ -19,18 +19,14 @@ This project automates the repetitive taskk of creating a folder with the same f
 
         Your (upload allowed) GitHub token
 
-    - LOCAL
-
-        The folder the repo is in
-
     - DEST
 
-        The folder new project folders will be created in
+        The folder where new projects' folders will be created into.
 
 1. Install the project dependencies: `pip install -r requirements.txt`
-1. Run the file: `python create.py [-h] [-l] [-p] [-s] project_name`
+1. Run the file: `python create.py [-h] [-l] [-py] [-s] project_name`
 
-- **[Tip!]** Add `create` to PATH or create a runner file to ease the use. (Help [here](PathAddition.md))
+- **[Tip!]** Add `create` to PATH or create a script which runs it (or both) to make it more versatile. (More info [here](PathAddition.md))
 
 ## **License**
 
