@@ -107,13 +107,11 @@ try:
     for c in commands:
         os.system(c)
 
-    os.system("python -m virtualenv venv")
-    os.system("code .")
-
     print(f"{PROJECTNAME} created")
 except:
     c.print_exception()
 
 finally:
     print("Done!")
+    os.system("code .")  # Open edtor
     os.system(f"cd {NEWFOLDER}")
