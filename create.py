@@ -66,26 +66,21 @@ c.print(
 c.print("[blue]If you want to proceed, press ENTER. Otherwise, press CTRL+C")
 input()
 
-# Commands setting
-if is_local:
-    commands = [
-        "git init",
-        "git add README.md",
-        'git commit -m "Initial commit"',
-    ]
+# Generic commands
+commands = [
+    "git init",
+    "git add README.md",
+    'git commit -m "Initial commit"',
+]
 
-else:  # Not local -> remote
+# Add remote commands
+if not is_local:
     user = Github(TOKEN).get_user()  # Login to GitHub
     login = user.login
     user.create_repo(PROJECTNAME, private=True)
 
-    commands = [
-        "git init",
-        f"git remote add origin https://github.com/{login}/{PROJECTNAME}.git",
-        "git add .",
-        'git commit -m "Initial commit"',
-        "git push -u origin master",
-    ]
+    commands.append(f"git remote add origin https://github.com/{login}/{PROJECTNAME}.git")
+    commands.append("git push -u origin master")
 
 
 # Global actions
