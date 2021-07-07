@@ -3,6 +3,7 @@
 [![MIT license](https://img.shields.io/github/license/appuchias/project_creator?style=flat-square)](https://github.com/appuchias/project_creator/blob/master/LICENSE)
 [![Author](https://img.shields.io/badge/Project%20by-Appu-9cf?style=flat-square)](https://github.com/appuchias)
 ![Size](https://img.shields.io/github/repo-size/appuchias/project_creator?color=orange&style=flat-square)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/appuchias/project_creator?style=for-the-badge)
 
 ## **How it works**
 
