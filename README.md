@@ -13,15 +13,19 @@ This project automates the repetitive taskk of creating a folder with the same f
 1. Navigate to the desired folder: `cd <path>`
 1. Clone the repo: `git clone https://github.com/appuchias/project_creator.git`
 1. Navigate into the repo folder: `cd project_creator`
-1. Setup environmental variables (Inside `.env` file)
+1. Setup environmental variables (Template [here](template.env), rename to `.env`)
 
     - TOKEN
 
-        Your (upload allowed) GitHub token
+        Your (private repo creation allowed) GitHub token
 
     - DEST
 
         The folder where new projects' folders will be created into.
+
+    - SCRIPTS_FOLDER_NAME
+
+        The name of the folder to use if you specify scipt type file.
 
 1. Install the project dependencies: `pip install -r requirements.txt`
 1. Run the file: `python create.py [-h] [-l] [-py] [-s] project_name`

@@ -1,4 +1,4 @@
-import shutil, os, argparse
+import shutil, os, argparse, pathlib
 from os import path
 from rich.console import Console
 from rich.traceback import install
@@ -10,28 +10,38 @@ load_dotenv()
 install()
 c = Console()
 
+# ############################################################################ #
+# DEST         - The folder where new projects' folders will be created into.  #
+# LOCAL        - The folder where `create.py` is located.                      #
+# SCRIPTS      - The folder name of script type files.                         #
+# PROJECTNAME  - The name of the project created (And so the folder).          #
+# NEWFOLDER    - The path to the folder to be created (DEST + PROJECTNAME).    #
+# ############################################################################ #
 
-# Argparser stuff
+
+# Argparser
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-l", "--local", help="Set the project as local", action="store_true")
-parser.add_argument("-p", "--python", help="Auto add python main file", action="store_true")
+parser.add_argument("-py", "--python", help="Auto add python main file", action="store_true")
 parser.add_argument("-s", "--script", help="Set the project as a script", action="store_true")
-parser.add_argument("project_name", help="Your project's name for your files and GitHub", nargs="?")
+parser.add_argument(
+    "project_name",
+    help="Your local and remote project's name",
+    type=str,
+)  # nargs="?",)
 
 args = parser.parse_args()
 name, local = args.project_name, args.local
 
-if not name:
-    name = input("Please specify project name: ").strip()
-
-
-DEST = getenv("DEST")  # Projects root folder (Where to create the new projects)
+is_local, PROJECTNAME = args.local, args.project_name
+DEST = getenv("DEST")
 TOKEN = getenv("TOKEN")  # GitHub token
-LOCAL = getenv("LOCAL")  # This file's folder (To clone files)
-SCRIPTS_FOLDER_NAME = "RANDOM_SCRIPTS"
+LOCAL = pathlib.Path(__file__).parent.resolve()
+SCRIPTS = getenv("SCRIPTS_FOLDER_NAME")
 
-PROJECTNAME = name
+if args.script and not args.python:  # Set the new root destination to
+    DEST = path.join(DEST, SCRIPTS)
 
 if args.script:  # Set the new root destination to
     DEST = path.exists(path.join(DEST, SCRIPTS_FOLDER_NAME))
@@ -43,7 +53,7 @@ if not path.exists(NEWFOLDER):  # Create destination folder
 
 
 # Commands setting
-if local:
+if is_local:
     commands = [
         "git init",
         "git add README.md",
