@@ -44,14 +44,6 @@ if args.script and not args.python:  # Set the new root destination to
 
 NEWFOLDER = path.join(DEST, PROJECTNAME)  # New folder on destination
 
-if not path.exists(NEWFOLDER):  # Create destination folder
-    os.makedirs(NEWFOLDER)
-else:
-    c.print(
-        f"[red bold]Path `{NEWFOLDER}` already exists, proceed anyways?\n\
-[blue](ENTER to proceed, CTRL+C to exit)"
-    )
-    input("")
 
 # Make sure all settings are correct
 c.print(
@@ -63,8 +55,19 @@ c.print(
 {'Python script file' if args.python and args.script else ('Python file' if args.python else ('Script' if args.script else ''))}""",
     end="" if not (args.python or args.script) else "\n",
 )
-c.print("[blue]If you want to proceed, press ENTER. Otherwise, press CTRL+C")
+c.print("[blue]If you want to proceed, press ENTER. Otherwise, press CTRL+C", end="")
 input()
+
+
+# Create destination folder if it doesn't exist, else warn the user
+if not path.exists(NEWFOLDER):
+    os.makedirs(NEWFOLDER)
+else:
+    c.print(
+        f"[red bold]Path `{NEWFOLDER}` already exists, proceed anyways?\n\
+[blue](ENTER to proceed, CTRL+C to exit)"
+    )
+    input("")
 
 # Generic commands
 commands = [
