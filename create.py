@@ -110,6 +110,6 @@ except:
     c.print_exception()
 
 finally:
-    print("Done!")
+    c.print("Done!")
     os.system("code .")  # Open edtor
-    os.system(f"cd {NEWFOLDER}")
+    c.print(f"cd {NEWFOLDER}")
