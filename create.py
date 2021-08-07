@@ -22,9 +22,15 @@ c = Console()
 # Argparser
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-l", "--local", help="Set the project as local", action="store_true")
-parser.add_argument("-py", "--python", help="Auto add python main file", action="store_true")
-parser.add_argument("-s", "--script", help="Set the project as a script", action="store_true")
+parser.add_argument(
+    "-l", "--local", help="Set the project as local", action="store_true"
+)
+parser.add_argument(
+    "-py", "--python", help="Auto add python main file", action="store_true"
+)
+parser.add_argument(
+    "-s", "--script", help="Set the project as a script", action="store_true"
+)
 parser.add_argument(
     "project_name",
     help="Your local and remote project's name",
@@ -84,7 +90,9 @@ if not is_local:
     login = user.login
     user.create_repo(PROJECTNAME, private=True)
 
-    commands.append(f"git remote add origin https://github.com/{login}/{PROJECTNAME}.git")
+    commands.append(
+        f"git remote add origin https://github.com/{login}/{PROJECTNAME}.git"
+    )
     commands.append("git push -u origin master")
 
 
