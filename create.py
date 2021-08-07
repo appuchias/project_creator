@@ -112,8 +112,8 @@ try:
         open(path.join(NEWFOLDER, "main.py"), "a").close()
 
     # Create project
-    for c in commands:
-        os.system(c)
+    for command in commands:
+        os.system(command)
 
     print(f"{PROJECTNAME} created")
 except:
