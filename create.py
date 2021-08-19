@@ -11,11 +11,11 @@ install()
 c = Console()
 
 # ############################################################################ #
-# DEST         - The folder where new projects' folders will be created into.  #
-# LOCAL        - The folder where `create.py` is located.                      #
-# SCRIPTS      - The folder name of script type files.                         #
-# PROJECTNAME  - The name of the project created (And so the folder).          #
-# NEWFOLDER    - The path to the folder to be created (DEST + PROJECTNAME).    #
+#  DEST        - The folder where new projects' folders will be created into.  #
+#  LOCAL       - The folder where `create.py` is located.                      #
+#  SCRIPTS     - The folder name of script type files.                         #
+#  PROJECTNAME - The name of the project created (And so the folder).          #
+#  NEWFOLDER   - The path to the folder to be created (DEST + PROJECTNAME).    #
 # ############################################################################ #
 
 
