@@ -9,6 +9,8 @@
 
 This project automates the repetitive taskk of creating a folder with the same files every time you decide to start a new project of your own. With this script you will be able to place all the files you want to be cloned into your new folder inside the `toClone` folder and after you run the file, they will be placed in their correspondent folder. Make sure you set up the necessary environmental variables _before_ you run the file so it can find them.
 
+Its usage is HIGHLY recommended with [open_project](https://github.com/appuchias/open_project)
+
 ## **Setup**
 
 1. Navigate to the desired folder: `cd <path>`
