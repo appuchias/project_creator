@@ -81,6 +81,8 @@ else:
 commands = [
     "git init",
     "git add README.md",
+    "git add LICENSE",
+    "git add .gitignore",
     'git commit -m "Initial commit"',
 ]
 
