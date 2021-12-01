@@ -16,7 +16,7 @@ Its usage is HIGHLY recommended with [open_project](https://github.com/appuchias
 1. Navigate to the desired folder: `cd <path>`
 1. Clone the repo: `git clone https://github.com/appuchias/project_creator.git`
 1. Navigate into the repo folder: `cd project_creator`
-1. Setup environmental variables (Template [here](template.env), rename to `.env`)
+1. Setup environmental variables (Template [here](template.env), rename the file to `.env`)
 
     - TOKEN
 
@@ -33,7 +33,7 @@ Its usage is HIGHLY recommended with [open_project](https://github.com/appuchias
 1. Install the project dependencies: `pip install -r requirements.txt`
 1. Run the file: `python create.py [-h] [-l] [-py] [-s] project_name`
 
-- **[Tip!]** Add `create` to PATH or create a script which runs it (or both) to make it more versatile. (More info [here](PathAddition.md))
+- **[Tip!]** Add `create` to PATH or create a script which runs it (or both) to make it more versatile. (More info [here](https://gist.github.com/nex3/c395b2f8fd4b02068be37c961301caa7))
 
 ## **License**
 
