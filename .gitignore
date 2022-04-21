@@ -1,3 +1,6 @@
 .env
 .vscode
-venv.ps1
+venv
+__pycache__
+*.gdoc
+.dccache

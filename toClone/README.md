@@ -17,6 +17,6 @@ How it works
 
 ## License
 
-This project is licensed under the [MIT license](https://github.com/appuchias/NAMEHERE/blob/master/LICENSE).
+This project is licensed under the [GPLv3 license](https://github.com/appuchias/NAMEHERE/blob/master/LICENSE).
 
 Coded with 🖤 by Appu
