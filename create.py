@@ -46,7 +46,7 @@ LOCAL = pathlib.Path(__file__).parent.resolve()
 SCRIPTS = getenv("SCRIPTS_FOLDER_NAME")
 
 if args.script and not args.python:  # Set the new root destination to
-    DEST = path.join(DEST, "SCRIPTS")
+    DEST = path.join(DEST, SCRIPTS)
 elif args.script and args.python:
     DEST = path.join(DEST, SCRIPTS)
 
